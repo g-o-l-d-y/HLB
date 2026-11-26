@@ -227,8 +227,6 @@ async def save_entry(entry: DailyEntry, request: Request) -> dict[str, Any]:
     return saved[0]
 
 
-app.mount(
-    "/",
-    StaticFiles(directory=Path(__file__).parent.parent / "public", html=True),
-    name="public",
-)
+public_directory = Path(__file__).parent.parent / "public"
+if public_directory.is_dir():
+    app.mount("/", StaticFiles(directory=public_directory, html=True), name="public")
